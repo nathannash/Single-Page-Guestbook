@@ -37,6 +37,7 @@
 					<!--email-->
 					<label for="<?php echo $FormEmail; ?>"><strong><span class="required">*</span>Email:</strong></label>
 					<input id="post-email" class="noerror" type="text" name="<?php echo $FormEmail; ?>" value="<?php if(isset($_POST['email_address'])) echo $_POST['email_address']; ?>">	
+					<!--website-->
 					<!--message-->
 					<label for="<?php echo $FormMessage; ?>"><strong><span class="required">*</span>Message:</strong></label>
 					<textarea id="post-message" class="noerror" name="<?php echo $FormMessage; ?>" ><?php if(isset($_POST["post_message"])) echo $_POST["post_message"]?></textarea>	
@@ -54,10 +55,10 @@
 				
 					//Validate form only if its been submitted
 					if($_POST['submitted'] == 1){
-						formValidation();
+						validateForm();
 					} 
 					
-					function formValidation(){
+					function validateForm(){
 						//Name Validation
 						if(strlen($_POST["guest_name"]) != 0){
 						    global $Name;
@@ -101,9 +102,28 @@
 					}
 					
 					function publishComment(){
+						//Capture form data passed by GLOBAL vars
 						global $Name;
 						global $Email;
-						global $Message;	
+						global $Message;
+						$Date = date('o F d');	
+						
+						//Format comment 
+						$Comment = "<p>" . $Message . "</p>" . "<hr />" . "<p>By " . $Name . " on " . $Date . "</p>";
+						
+						//Create comments directory
+						$Dir = "/nnash_ex2/comments/";
+						if (is_dir($Dir)){
+							$SaveString = $Comment;
+							$SaveFileName = "$Dir/comments.txt";
+							if(file_put_contents($SaveFileName, $SaveString) > 0){
+								//parse comments.txt
+								echo "a lovely comment";
+							} else {
+								echo "error :(";
+							}
+						}
+						    						
 					}
 					
 				?>
