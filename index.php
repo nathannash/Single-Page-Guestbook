@@ -28,7 +28,7 @@
 					$FormEmail = "email_address";
 					$FormMessage = "post_message";	
 					$FormImage = "post_image";
-					$Name = $Email = $Message = "";						
+					$Name = $Email = $Message = "";
 				?>
 				<form id="comment-form" action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" enctype="multipart/form-data" method="post">
 					<!--name-->
@@ -52,7 +52,7 @@
 			<div class="span8">
 				<h2>Guestbook</h2>
 				<?php
-				
+								
 					//Validate form only if its been submitted
 					if($_POST['submitted'] == 1){
 						validateForm();
@@ -101,32 +101,44 @@
 						}	
 					}
 					
+					//Page content
+					displayComments();					
+					
 					function publishComment(){
 						//Capture form data passed by GLOBAL vars
 						global $Name;
 						global $Email;
 						global $Message;
-						$Date = date('o F d');	
+						global $File;
+						$Date = date('o F d');
 						
 						//Format comment 
-						$Comment = "<p>" . $Message . "</p>" . "<hr />" . "<p>By " . $Name . " on " . $Date . "</p>";
+						$Comment = "<p>" . $Message . "</p>" . "<hr />" . "<p>By " . $Name . " on " . $Date . "</p>\n";
 						
-						//Create comments directory
-						$Dir = "/nnash_ex2/comments/";
-						if (is_dir($Dir)){
-							$SaveString = $Comment;
-							$SaveFileName = "$Dir/comments.txt";
-							if(file_put_contents($SaveFileName, $SaveString) > 0){
-								//parse comments.txt
-								echo "a lovely comment";
-							} else {
-								echo "error :(";
-							}
-						}
-						    						
+						//VARs to write the file 
+						$Dir = "comments/";
+						$File = 'comments/comments.txt';
+						//Open file to get existing content
+						$Current = file_get_contents($File);
+						//Append new comment to file
+						$Current .= $Comment;
+						
+						//Create comments directory if it doesn't exist already
+						if(!is_dir($Dir)){
+							mkdir($Dir, 0777);
+							file_put_contents($File, $Current);
+						} else {
+							file_put_contents($File, $Current);
+						}							    						
 					}
 					
-				?>
+					//If the form has 'ever' been submitted load comments file
+					function displayComments(){
+						if(is_dir("comments/")){
+							include("comments/comments.txt"); 
+						}
+					}					
+			 ?>
 			</div>
 		</div>
 	</section>
