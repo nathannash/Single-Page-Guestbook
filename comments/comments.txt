@@ -1,0 +1,2 @@
+<div class='comment'><p>lightbox test 1</p><hr /><p>By <a href=mailto:mcknathannash@gmail.com>Nathan</a> on 2013 July 30, 11:16 AM | <a href='uploads/2A-ATR-EdgeOfTheOcean_1280x1024.jpg' data-lightbox='2A-ATR-EdgeOfTheOcean_1280x1024.jpg'>Attachments <span class='badge'>1</span></a></p></div>
+<div class='comment'><p>lightbox test 2</p><hr /><p>By <a href=mailto:mcknathannash@gmail.com>Nathan</a> on 2013 July 30, 11:16 AM | <a href='uploads/E1mhmWu.jpg' data-lightbox='E1mhmWu.jpg'>Attachments <span class='badge'>1</span></a></p></div>

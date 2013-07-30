@@ -2,8 +2,11 @@
 <html lang="en">
     <head>
 	    <title>Exercise 2: Guestbook</title>
+        <link rel="stylesheet" href="lib/css/bootstrap.css" type="text/css" media="screen" charset="utf-8">
+		<link href="lib/css/lightbox.css" rel="stylesheet" />
         <link rel="stylesheet" href="lib/css/style.css" type="text/css" media="screen" charset="utf-8">  
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>		
+		<script src="lib/js/lightbox-2.6.min.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function(){
 			$(".comment:odd").addClass("alternateBG");
@@ -138,9 +141,9 @@
 						global $Attachment;
 						$Date = date('o F d, g:i A'); //YYYY MM DD, 00:00 AM/PM
 						
-						//Format comment 
+						//Format comment and include attachment if it exists
 						if($Attachment){
-						    $Comment = "<div class='comment'><p>" . $Message . "</p>" . "<hr />" . "<p>By <a href=mailto:" . $Email . ">" . $Name . "</a> on "  . $Date . " (View Attachment:<a href='uploads/'" . $Attachment .">" . $Attachment . "</a>)</p></div>\n";
+						    $Comment = "<div class='comment'><p>" . $Message . "</p>" . "<hr />" . "<p>By <a href=mailto:" . $Email . ">" . $Name . "</a> on "  . $Date . " | <a href='uploads/" . $Attachment ."' data-lightbox='".$Attachment."'>Attachments <span class='badge'>1</span></a></p></div>\n";
 						} else {
 						    $Comment = "<div class='comment'><p>" . $Message . "</p>" . "<hr />" . "<p>By <a href=mailto:" . $Email . ">" . $Name . "</a> on "  . $Date . "</p></div>\n";
 						}

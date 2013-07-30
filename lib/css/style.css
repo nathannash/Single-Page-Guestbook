@@ -39,6 +39,8 @@ a:active.alert-link
 	
 }
 
+#lightbox img{ width: 100%; height: 100%;}
+
 .wall hr {
 	margin:0px;
 }
