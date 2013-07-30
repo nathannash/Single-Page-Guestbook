@@ -95,25 +95,31 @@
 						$FileType = $_FILES['picture_file']['type'];
 						$FileSize = $_FILES['picture_file']['size'];
 						$FileName = $_FILES['picture_file']['name'];
+						$FileTmp  = $_FILES['picture_file']['tmp_name'];
 						$Dir = "uploads/";
 						
 						//If user uploads file...
 						if($_FILES){
+							global $Attachment;
+							$Attachment = $FileName;
+							
 							if (($FileType == "image/gif") 
 						    || ($FileType == "image/jpg") 
 							|| ($FileType == "image/jpeg") 
 							|| ($FileType == "image/png") 
 							&& ($FileSize < 2097152)) {
 								//Make public directory 
-								if(move_uploaded_file($_FILES['picture_file']['tmp_name'], $Dir . $FileName === FALSE)){
+								if(move_uploaded_file($FileTmp, $Dir . $FileName === FALSE)){
 									echo "<div class='alert alert-danger'> Could not move uploaded file to \"uploads" . htmlentities($FileName) . "\"</div>\n";
 								} else {
 									mkdir($Dir, 0777);
-									chmod($Dir . $FileName, 0644); 
+									move_uploaded_file($FileTmp, $Dir . $FileName);
 									echo "<div class='alert alert-success'>Successfully uploaded \"uploads/" . htmlentities($FileName) . "\"</div>\n";
 								}
+							} else {
+								echo "<div class='alert alert-danger'>File must be a JPG, JPEG, GIF or PNG and weigh <2MB. <strong><a class='alert-link' href='/nnash_ex2/'>Start over?</a></strong></div>";							
 							}								
-						}
+						} 
 							
 						//If all required fields are set publish comment
 						if(isset($Name) && isset($Email) && isset($Message)){
@@ -135,7 +141,11 @@
 						$Date = date('o F d, g:i A'); //YYYY MM DD, 00:00 AM/PM
 						
 						//Format comment 
-						$Comment = "<div class='comment'><p>" . $Message . "</p>" . "<hr />" . "<p>By <a href=mailto:" . $Email . ">" . $Name . "</a> on "  . $Date . "</p></div>\n";
+						if($Attachment){
+						    $Comment = "<div class='comment'><p>" . $Message . "</p>" . "<hr />" . "<p>By <a href=mailto:" . $Email . ">" . $Name . "</a> on "  . $Date . " (View Attachment:<a href='uploads/'" . $Attachment .">" . $Attachment . "</a>)</p></div>\n";
+						} else {
+						    $Comment = "<div class='comment'><p>" . $Message . "</p>" . "<hr />" . "<p>By <a href=mailto:" . $Email . ">" . $Name . "</a> on "  . $Date . "</p></div>\n";
+						}
 						//VARs to write the file 
 						$Dir = "comments/";
 						$File = 'comments/comments.txt';
