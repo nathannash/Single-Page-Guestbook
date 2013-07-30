@@ -2,10 +2,8 @@
 <html lang="en">
     <head>
 	    <title>Exercise 2: Guestbook</title>
-        <link rel="stylesheet" href="lib/css/bootstrap.css" type="text/css" media="screen" charset="utf-8">
         <link rel="stylesheet" href="lib/css/style.css" type="text/css" media="screen" charset="utf-8">  
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>		
-		<script type="text/javascript" src="lib/js/bootstrap.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function(){
 			$(".comment:odd").addClass("alternateBG");
