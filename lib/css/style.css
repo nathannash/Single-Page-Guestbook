@@ -1,0 +1,64 @@
+#wrapper {
+	margin:0 auto;
+	padding:100px 0 0 0;
+	width:960px;
+}
+							
+.errorText, .required {
+	color:#F00;
+}
+
+.submit {
+	font-family:"Helvetica Neue", Helvetica, Arial , Verdana, sans-serif;
+	font-weight:bold;
+	color:#fff;
+	border:none;
+	border-radius:3px;
+	padding:12px 18px 13px;
+	background-color:#2ECC71;
+	width:220px;
+}
+
+a:link.alert-link,
+a:visited.alert-link,
+a:hover.alert-link,
+a:active.alert-link 
+{
+	color:#953b39;
+}
+
+.uploadImg {
+	font-family:"Helvetica Neue", Helvetica, Arial , Verdana, sans-serif;
+	font-weight:bold;
+	color:#fff;
+	border:none;
+	border-radius:3px;
+	padding:12px 18px 13px;
+	background-color:#2ECC71;
+	width:auto;
+	
+}
+
+.wall hr {
+	margin:0px;
+}
+
+.alternateBG hr {
+	border-color:#333;
+	border-top:1px solid #eee;
+}
+
+.wall h2 {
+	margin:0 0 20px 0;
+}
+
+.comment {
+	margin:0 0 30px 0;
+	padding:10px;
+}
+
+.alternateBG {
+	background:#eee;
+	padding:10px;
+	border-radius:10px;
+}

@@ -1,4 +1,2 @@
-<p><3
-</p><hr /><p>By Nathan on 2013 July 28</p>
-<p><3
-</p><hr /><p>By Nathan on 2013 July 28</p>
+<div class='comment'><p>test</p><hr /><p>By <a href=mailto:mcknathannash@gmail.com>Nathan</a> on 2013 July 30, 7:05 AM</p></div>
+<div class='comment'><p>test</p><hr /><p>By <a href=mailto:mcknathannash@gmail.com>Nathan</a> on 2013 July 30, 7:07 AM</p></div>
