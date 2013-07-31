@@ -99,19 +99,16 @@
 							$FileSize = $_FILES['picture_file']['size'];
 							$FileName = $_FILES['picture_file']['name'];
 							$FileTmp  = $_FILES['picture_file']['tmp_name'];
+							$Res = isValidImage();
 							$Dir = "uploads/";
+						
 						
 							//If user uploads file...
 							if($_FILES){
 								global $Attachment;
-								$BadFile;
 								
 								//If the attachment is valid upload it to the server
-								if (($FileType == "image/gif") 
-							    || ($FileType == "image/jpg") 
-								|| ($FileType == "image/jpeg") 
-								|| ($FileType == "image/png") 
-								&& ($FileSize < 2097152)) {
+								if ($Res == TRUE) {
 									//Make public directory 
 									if(move_uploaded_file($FileTmp, $Dir . $FileName === FALSE)){
 										$Attachment = $FileName;
@@ -121,22 +118,13 @@
 										mkdir($Dir, 0777);
 										move_uploaded_file($FileTmp, $Dir . $FileName);
 										echo "<div class='alert alert-success'>Successfully uploaded \"uploads/" . htmlentities($FileName) . "\"</div>\n";
-										$BadFile = FALSE;
 									}
 								} 
-								
-								//If the attachment is invalid don't upload it
-								if (($FileType != "image/gif") 
-							    || ($FileType != "image/jpg") 
-								|| ($FileType != "image/jpeg") 
-								|| ($FileType != "image/png") 
-								&& ($FileSize > 2097152)) {
-									$BadFile = TRUE;
-								} 
 							} 
+													
 							
 							//If all required fields are set publish comment
-							if(isset($Name) && isset($Email) && isset($Message) && $BadFile == FALSE){
+							if(isset($Name) && isset($Email) && isset($Message) && $Res == TRUE){
 								publishComment();
 							} 
 							
@@ -145,11 +133,29 @@
 								echo "<div class='alert alert-danger'>Please complete all required fields.<strong><a class='alert-link' href='/nnash_ex2/'> Start over?</a></strong></div>";							
 							}
 							
-							//If there is a bad file
-							if(strlen($FileName) > 0 && $BadFile == TRUE) {
+							if(strlen($FileName) > 0  && $Res == FALSE) {
 								echo "<div class='alert alert-danger'>The file must be a JPG, JPEG, GIF or PNG and smaller than 2MB.<strong><a class='alert-link' href='/nnash_ex2/'> Start over?</a></strong></div>";
-							}																					
+							}
 						}
+						
+						/*Mime-type validation source: 
+						http://stackoverflow.com/a/13097576/400404*/
+	
+					    function getMimeType(){
+			                $finfo = new finfo(FILEINFO_MIME);
+			                $type = $finfo->file($_FILES['picture_file']['tmp_name']);//change the field_name
+			                $mime = substr($type, 0, strpos($type, ';'));
+			                return $mime;
+				        }
+
+				        function isValidImage(){
+				            $mime = getMimeType();
+				            if(stristr($mime,'image'))
+				                return true;
+				            else 
+				                return false;							
+				        }
+						
 					
 						//Load comments into page 
 						displayComments();					
