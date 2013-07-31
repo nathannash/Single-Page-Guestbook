@@ -46,8 +46,8 @@ body:after {
   position: relative;
   background-color: white;
   *zoom: 1;
-  width: 250px;
-  height: 250px;
+  width: 1024px;
+  height: 768px;
   margin: 0 auto;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -92,8 +92,8 @@ body:after {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 100%;
+  height: 1024px;
+  width: 768p;
   z-index: 10;
 }
 

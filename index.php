@@ -3,13 +3,14 @@
     <head>
 	    <title>Exercise 2: Guestbook</title>
         <link rel="stylesheet" href="lib/css/bootstrap.css" type="text/css" media="screen" charset="utf-8">
+		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 		<link href="lib/css/lightbox.css" rel="stylesheet" />
         <link rel="stylesheet" href="lib/css/style.css" type="text/css" media="screen" charset="utf-8">  
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>		
 		<script src="lib/js/lightbox-2.6.min.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function(){
-			$(".comment:odd").addClass("alternateBG");
+			$(".comment:odd").addClass("well");
 		});
 		</script>
     </head>
@@ -38,7 +39,7 @@
 					<!--attachment-->
 					<label for="<?php echo $FormAttachment; ?>"><strong>Upload Picture:</strong></label>
 					<input id="post-image-size" name="size_constraint" type ="hidden">
-					<input id="post-image" class="well" name="<?php echo $FormAttachment; ?>" type="file">			
+					<input id="post-image" class="" name="<?php echo $FormAttachment; ?>" type="file">			
 					<!--submit:: hidden fields enforce file size and check if the form has been submitted-->
 				    <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
 				    <input type="hidden" name="submitted" value="1">  
@@ -46,138 +47,159 @@
 				</form>
 			</div>
 			<div class="span8 wall">
-				<h2>Guestbook</h2>
-				<?php
+				<div id="inner-content-div">
+					<h2>Guestbook</h2>
+					<?php
 								
-					//Validate form only if its been submitted
-					if($_POST['submitted'] == 1){
-						validateForm();
-					} 
+						//Validate form only if its been submitted
+						if($_POST['submitted'] == 1){
+							validateForm();
+						} 
 					
-					function validateForm(){
-						//Name Validation
-						if(strlen($_POST["guest_name"]) != 0){
-						    global $Name;
-							$Name = $_POST["guest_name"];
-						} else {
-							echo 
-							'<script type="text/javascript">
-								$(document).ready(function(){
-									$("#post-name").removeClass("noerror").addClass("error");
-								});
-							</script>';
-						}
-						//Email Validation
-						if(strlen($_POST["email_address"]) != 0){
-							global $Email;
-							$Email = $_POST["email_address"];
-						} else {
-							echo 
-							'<script type="text/javascript">
-								$(document).ready(function(){
-									$("#post-email").removeClass("noerror").addClass("error");
-								});
-							</script>';							
-						}
-						//Message Validation
-						if(strlen($_POST["post_message"]) != 0){
-							global $Message;
-							$Message = $_POST["post_message"];
-						} else {
-							echo 
-							'<script type="text/javascript">
-								$(document).ready(function(){
-									$("#post-message").removeClass("noerror").addClass("error");
-								});
-							</script>';							
-						}
+						function validateForm(){
+							//Name Validation
+							if(strlen($_POST["guest_name"]) != 0){
+							    global $Name;
+								$Name = $_POST["guest_name"];
+							} else {
+								echo 
+								'<script type="text/javascript">
+									$(document).ready(function(){
+										$("#post-name").removeClass("noerror").addClass("error");
+									});
+								</script>';
+							}
+							//Email Validation
+							if(strlen($_POST["email_address"]) != 0){
+								global $Email;
+								$Email = $_POST["email_address"];
+							} else {
+								echo 
+								'<script type="text/javascript">
+									$(document).ready(function(){
+										$("#post-email").removeClass("noerror").addClass("error");
+									});
+								</script>';							
+							}
+							//Message Validation
+							if(strlen($_POST["post_message"]) != 0){
+								global $Message;
+								$Message = $_POST["post_message"];
+							} else {
+								echo 
+								'<script type="text/javascript">
+									$(document).ready(function(){
+										$("#post-message").removeClass("noerror").addClass("error");
+									});
+								</script>';							
+							}
 						
-						//Attachment Validation
-						$FileType = $_FILES['picture_file']['type'];
-						$FileSize = $_FILES['picture_file']['size'];
-						$FileName = $_FILES['picture_file']['name'];
-						$FileTmp  = $_FILES['picture_file']['tmp_name'];
-						$Dir = "uploads/";
+							//Attachment Validation
+							$FileType = $_FILES['picture_file']['type'];
+							$FileSize = $_FILES['picture_file']['size'];
+							$FileName = $_FILES['picture_file']['name'];
+							$FileTmp  = $_FILES['picture_file']['tmp_name'];
+							$Dir = "uploads/";
 						
-						//If user uploads file...
-						if($_FILES){
-							global $Attachment;
-							$Attachment = $FileName;
+							//If user uploads file...
+							if($_FILES){
+								global $Attachment;
+								$BadFile;
+								
+								//If the attachment is valid upload it to the server
+								if (($FileType == "image/gif") 
+							    || ($FileType == "image/jpg") 
+								|| ($FileType == "image/jpeg") 
+								|| ($FileType == "image/png") 
+								&& ($FileSize < 2097152)) {
+									//Make public directory 
+									if(move_uploaded_file($FileTmp, $Dir . $FileName === FALSE)){
+										$Attachment = $FileName;
+										echo "<div class='alert alert-danger'> Could not move uploaded file to \"uploads" . htmlentities($FileName) . "\"</div>\n";
+									} else {
+										$Attachment = $FileName;
+										mkdir($Dir, 0777);
+										move_uploaded_file($FileTmp, $Dir . $FileName);
+										echo "<div class='alert alert-success'>Successfully uploaded \"uploads/" . htmlentities($FileName) . "\"</div>\n";
+										$BadFile = FALSE;
+									}
+								} 
+								
+								//If the attachment is invalid don't upload it
+								if (($FileType != "image/gif") 
+							    || ($FileType != "image/jpg") 
+								|| ($FileType != "image/jpeg") 
+								|| ($FileType != "image/png") 
+								&& ($FileSize > 2097152)) {
+									$BadFile = TRUE;
+								} 
+							} 
 							
-							if (($FileType == "image/gif") 
-						    || ($FileType == "image/jpg") 
-							|| ($FileType == "image/jpeg") 
-							|| ($FileType == "image/png") 
-							&& ($FileSize < 2097152)) {
-								//Make public directory 
-								if(move_uploaded_file($FileTmp, $Dir . $FileName === FALSE)){
-									echo "<div class='alert alert-danger'> Could not move uploaded file to \"uploads" . htmlentities($FileName) . "\"</div>\n";
-								} else {
-									mkdir($Dir, 0777);
-									move_uploaded_file($FileTmp, $Dir . $FileName);
-									echo "<div class='alert alert-success'>Successfully uploaded \"uploads/" . htmlentities($FileName) . "\"</div>\n";
+							//If all required fields are set publish comment
+							if(isset($Name) && isset($Email) && isset($Message) && $BadFile == FALSE){
+								publishComment();
+							} 
+							
+							//If required fields are missing
+							if(!isset($Name) || !isset($Email) || !isset($Message)){
+								echo "<div class='alert alert-danger'>Please complete all required fields.<strong><a class='alert-link' href='/nnash_ex2/'> Start over?</a></strong></div>";							
+							}
+							
+							//If there is a bad file
+							if(strlen($FileName) > 0 && $BadFile == TRUE) {
+								echo "<div class='alert alert-danger'>The file must be a JPG, JPEG, GIF or PNG and smaller than 2MB.<strong><a class='alert-link' href='/nnash_ex2/'> Start over?</a></strong></div>";
+							}																					
+						}
+					
+						//Load comments into page 
+						displayComments();					
+					
+						function publishComment(){
+							//Capture form data passed by GLOBAL vars
+							global $Name;
+							global $Email;
+							global $Message;
+							global $Attachment;
+							$Date = date('o F d, g:i A'); //YYYY MM DD, 00:00 AM/PM
+						
+							//Format comment and include attachment if it exists
+							if($Attachment){
+							    $Comment = "<div class='comment'><p>" . $Message . "</p>" . "<hr />" . "<p>By <a href=mailto:" . $Email . ">" . $Name . "</a> on "  . $Date . " | <a href='uploads/" . $Attachment ."' data-lightbox='".$Attachment."'>Attachment: ". $Attachment ."</a></p></div>\n";
+							} else {
+							    $Comment = "<div class='comment'><p>" . $Message . "</p>" . "<hr />" . "<p>By <a href=mailto:" . $Email . ">" . $Name . "</a> on "  . $Date . "</p></div>\n";
+							}
+							//VARs to write the file 
+							$Dir = "comments/";
+							$File = 'comments/comments.txt';
+							//Open file to get existing content
+							$Current = file_get_contents($File);
+							//Append new comment to file
+							$Current .= $Comment;
+						
+							//Create comments directory if it doesn't exist already
+							if(!is_dir($Dir)){
+								mkdir($Dir, 0777);
+								file_put_contents($File, $Current);
+							} else {
+								file_put_contents($File, $Current);
+							}							    						
+						}
+					
+						function displayComments(){
+							if(is_dir("comments/")){
+								$Comments = file("comments/comments.txt");
+								$CommentLines = count($Comments);
+								//Display comments with loop
+								for($i = 0; $i < $CommentLines; ++$i){
+									echo $Comments[$i];
 								}
 							} else {
-								echo "<div class='alert alert-danger'>File must be a JPG, JPEG, GIF or PNG and weigh <2MB. <strong><a class='alert-link' href='/nnash_ex2/'>Start over?</a></strong></div>";							
-							}								
-						} 
-							
-						//If all required fields are set publish comment
-						if(isset($Name) && isset($Email) && isset($Message)){
-							publishComment();
-						} else {
-							echo "<div class='alert alert-danger'>Please complete all required fields. Or <strong><a class='alert-link' href='/nnash_ex2/'>start over</a></strong></div>";							
-						}	
-					}
-					
-					//Load comments into page 
-					displayComments();					
-					
-					function publishComment(){
-						//Capture form data passed by GLOBAL vars
-						global $Name;
-						global $Email;
-						global $Message;
-						global $Attachment;
-						$Date = date('o F d, g:i A'); //YYYY MM DD, 00:00 AM/PM
-						
-						//Format comment and include attachment if it exists
-						if($Attachment){
-						    $Comment = "<div class='comment'><p>" . $Message . "</p>" . "<hr />" . "<p>By <a href=mailto:" . $Email . ">" . $Name . "</a> on "  . $Date . " | <a href='uploads/" . $Attachment ."' data-lightbox='".$Attachment."'>Attachments <span class='badge'>1</span></a></p></div>\n";
-						} else {
-						    $Comment = "<div class='comment'><p>" . $Message . "</p>" . "<hr />" . "<p>By <a href=mailto:" . $Email . ">" . $Name . "</a> on "  . $Date . "</p></div>\n";
-						}
-						//VARs to write the file 
-						$Dir = "comments/";
-						$File = 'comments/comments.txt';
-						//Open file to get existing content
-						$Current = file_get_contents($File);
-						//Append new comment to file
-						$Current .= $Comment;
-						
-						//Create comments directory if it doesn't exist already
-						if(!is_dir($Dir)){
-							mkdir($Dir, 0777);
-							file_put_contents($File, $Current);
-						} else {
-							file_put_contents($File, $Current);
-						}							    						
-					}
-					
-					function displayComments(){
-						if(is_dir("comments/")){
-							$Comments = file("comments/comments.txt");
-							$CommentLines = count($Comments);
-							//Display comments with loop
-							for($i = 0; $i < $CommentLines; ++$i){
-								echo $Comments[$i];
+								echo "<div class='alert alert-info'>You're the <strong>first one</strong> here! Leave a comment!</div>";
 							}
-						} else {
-							echo "<div class='alert alert-info'>You're the <strong>first one</strong> here! Leave a comment!</div>";
-						}
-					}					
-			 ?>
-			</div>
+						}					
+				 ?>
+				</div>
+			</div>	
 		</div>
 	</section>
 </body>

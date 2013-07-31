@@ -1,3 +1,15 @@
+body{
+	background:url('lib/img/swirl.png') repeat-x repeat-y #f2f2f2 ;
+}
+
+input,label {
+	font-family:'Source Sans Pro', Helvetica, Arial , Verdana, sans-serif;
+}
+
+p, h1, h2 {
+	font-family:'Source Sans Pro', Helvetica, Arial , Verdana, sans-serif;
+}
+
 #wrapper {
 	margin:0 auto;
 	padding:100px 0 0 0;
@@ -9,7 +21,7 @@
 }
 
 .submit {
-	font-family:"Helvetica Neue", Helvetica, Arial , Verdana, sans-serif;
+	font-family:'Source Sans Pro', Helvetica, Arial , Verdana, sans-serif;
 	font-weight:bold;
 	color:#fff;
 	border:none;
@@ -17,6 +29,8 @@
 	padding:12px 18px 13px;
 	background-color:#2ECC71;
 	width:220px;
+	position:relative;
+	top:10px;
 }
 
 a:link.alert-link,
@@ -27,19 +41,14 @@ a:active.alert-link
 	color:#953b39;
 }
 
-.uploadImg {
-	font-family:"Helvetica Neue", Helvetica, Arial , Verdana, sans-serif;
-	font-weight:bold;
-	color:#fff;
-	border:none;
+#post-image{
+	font-family:'Source Sans Pro', Helvetica, Arial , Verdana, sans-serif;
+	color:#7F8C8D;
+	background:#ECF0F1;
 	border-radius:3px;
-	padding:12px 18px 13px;
-	background-color:#2ECC71;
-	width:auto;
-	
+	padding:12px 18px 3px  13px;
+	width:190px;
 }
-
-#lightbox img{ width: 100%; height: 100%;}
 
 .wall hr {
 	margin:0px;
@@ -63,4 +72,10 @@ a:active.alert-link
 	background:#eee;
 	padding:10px;
 	border-radius:10px;
+}
+
+/*email obfuscation*/
+.rev{
+    direction: rtl;
+    unicode-bidi: bidi-override;
 }
