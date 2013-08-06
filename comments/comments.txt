@@ -1,3 +1,0 @@
-<div class='comment'><p>test</p><hr /><p>By <a href=mailto:mcknathannash@gmail.com>bad file</a> on 2013 July 31, 4:10 AM | <a href='uploads/Droid-Sans.zip' data-lightbox='Droid-Sans.zip'>Attachment: Droid-Sans.zip</a></p></div>
-<div class='comment'><p>test</p><hr /><p>By <a href=mailto:mcknathannash@gmail.com>bad file</a> on 2013 July 31, 4:11 AM</p></div>
-<div class='comment'><p>test</p><hr /><p>By <a href=mailto:mcknathannash@gmail.com>bad file</a> on 2013 July 31, 4:11 AM</p></div>
